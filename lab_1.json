@@ -1,0 +1,27 @@
+[
+  {
+    "url": "http://localhost:8080/789456",
+    "response": "семьсот восемьдесят девять тысяч(и) четыреста пятьдесят шесть",
+    "method": "GET"
+  },
+  {
+    "url": "http://localhost:8080/parameters/?a=1&b=4&c=-1",
+    "response": {"x1":-4.23606797749979,"x2":0.2360679774997898,"error":null},
+    "method": "GET"
+  },
+  {
+    "url": "http://localhost:8080/weekdays?date=12.12.2028",
+    "response": "вторник",
+    "method": "GET"
+  },
+  {
+    "url": "http://localhost:8080/fibonacci/8",
+    "response": 21,
+    "method": "GET"
+  },
+  {
+    "url": "http://localhost:8080/regions/72",
+    "response": "Тюменская область",
+    "method": "GET"
+  }
+]
