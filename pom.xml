@@ -96,7 +96,7 @@
 					<sources>
 						<source>src/main/resources/xsds</source>
 					</sources>
-					<packageName>com.crusher.gs_ws</packageName>
+					<outputDirectory>src/main/java</outputDirectory>
 					<clearOutputDir>false</clearOutputDir>
 				</configuration>
 			</plugin>
