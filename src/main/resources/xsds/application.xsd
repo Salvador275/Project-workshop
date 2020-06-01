@@ -1,0 +1,86 @@
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://soap-service/applications"
+           targetNamespace="http://soap-service/applications" elementFormDefault="qualified">
+
+    <xs:element name="getApplicationByIdRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="id" type="xs:long"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="getApplicationByIdResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="application" type="tns:applicationInfo"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:complexType name="applicationInfo">
+        <xs:sequence>
+            <xs:element name="id" type="xs:long"/>
+            <xs:element name="client_id" type="xs:long"/>
+            <xs:element name="service_id" type="xs:long"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="getAllApplicationsRequest">
+        <xs:complexType/>
+    </xs:element>
+    <xs:element name="getAllApplicationsResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="application" type="tns:applicationInfo" maxOccurs="unbounded"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:complexType name="serviceStatus">
+        <xs:sequence>
+            <xs:element name="statusCode" type="xs:string"/>
+            <xs:element name="message" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="addApplicationRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="id" type="xs:long"/>
+                <xs:element name="client_id" type="xs:long"/>
+                <xs:element name="service_id" type="xs:long"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="addApplicationResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="serviceStatus" type="tns:serviceStatus"/>
+                <xs:element name="application" type="tns:applicationInfo"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="updateApplicationRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="application" type="tns:applicationInfo"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="updateApplicationResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="serviceStatus" type="tns:serviceStatus"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="deleteApplicationRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="id" type="xs:long"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="deleteApplicationResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="serviceStatus" type="tns:serviceStatus"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+</xs:schema>
