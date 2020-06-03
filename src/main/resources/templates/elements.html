@@ -1,0 +1,21 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:text="lab-5"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" type="text/css" href="/css/styles.css">
+</head>
+<body>
+<h1 th:text="${title}"></h1>
+<table>
+    <tr>
+        <th>Id</th>
+        <th>Name</th>
+    </tr>
+    <tr th:each = "element : ${elements}">
+        <td th:utext="${element.id}"></td>
+        <td th:utext="${element.name}"></td>
+    </tr>
+</table>
+</body>
+</html>
