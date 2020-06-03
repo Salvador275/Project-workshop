@@ -6,27 +6,38 @@ import com.crusher.work.repo.ServiceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-@RestController
+@Controller
 public class ServiceController {
     @Autowired
     private ServiceRepository serviceRepository;
 
     @RequestMapping(value = "/services", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE) //READ
-    public Iterable<Service> getAllServices(){
-        return serviceRepository.findAll();
+    public String getAllServices(Model model){
+        Iterable<Service> services = serviceRepository.findAll();
+        ArrayList<Service> servicesList = new ArrayList<Service>();
+        for (Service service : services){
+            servicesList.add(service);
+        }
+        model.addAttribute("elements", servicesList);
+        model.addAttribute("title", "Services");
+        return "elements";
     }
 
     @RequestMapping(value = "/services/get", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE) //READ
-    public ResponseEntity<Service> getServiceById(Long id) throws ResourceNotFoundException {
+    public String getServiceById(Long id, Model model) throws ResourceNotFoundException {
         Service service = serviceRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("The service with this id="+ id +" was not found"));
-        return ResponseEntity.ok().body(service);
+        model.addAttribute("elements", service);
+        model.addAttribute("title", "Services");
+        return "elements";
     }
 
     @RequestMapping(value = "/services/create", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE) // CREATE

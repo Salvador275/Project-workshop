@@ -10,14 +10,16 @@ import com.crusher.work.repo.ServiceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-@RestController
+@Controller
 public class ApplicationController {
     @Autowired
     private ApplicationRepository applicationRepository;
@@ -29,12 +31,23 @@ public class ApplicationController {
     private ServiceRepository serviceRepository;
 
     @RequestMapping(value = "/applications", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public Iterable<Application> getAllAplications(){ return applicationRepository.findAll(); }
+    public String getAllAplications(Model model){
+        Iterable<Application> applications = applicationRepository.findAll();
+        ArrayList<Application> applicationsList = new ArrayList<Application>();
+        for (Application application : applications){
+            applicationsList.add(application);
+        }
+        model.addAttribute("elements", applicationsList);
+        model.addAttribute("title", "Applications");
+        return "application";
+    }
 
     @RequestMapping(value = "/applications/get", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Application> getApplicationById(Long id) throws ResourceNotFoundException{
+    public String getApplicationById(Long id, Model model) throws ResourceNotFoundException{
         Application application = applicationRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("The application with this id="+ id +" was not found"));
-        return ResponseEntity.ok().body(application);
+        model.addAttribute("elements", application);
+        model.addAttribute("title", "Applications");
+        return "application";
     }
 
     @RequestMapping(value = "/applications/create", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE) // CREATE

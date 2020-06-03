@@ -6,27 +6,38 @@ import com.crusher.work.repo.ClientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-@RestController
+@Controller
 public class ClientController {
     @Autowired
     private ClientRepository clientRepository;
 
     @RequestMapping(value = "/clients", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE) //READ
-    public Iterable<Client> getAllClients(){
-        return clientRepository.findAll();
+    public String getAllClients(Model model){
+        Iterable<Client> clients = clientRepository.findAll();
+        ArrayList<Client> clientsList = new ArrayList<Client>();
+        for (Client client : clients){
+            clientsList.add(client);
+        }
+        model.addAttribute("elements", clientsList);
+        model.addAttribute("title", "Clients");
+        return "elements";
     }
 
     @RequestMapping(value = "/clients/get", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE) //READ
-    public ResponseEntity<Client> getClientById(Long id) throws ResourceNotFoundException {
+    public String getClientById(Long id, Model model) throws ResourceNotFoundException {
         Client client = clientRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("The client with this id="+ id +" was not found"));
-        return ResponseEntity.ok().body(client);
+        model.addAttribute("element", client);
+        model.addAttribute("title", "Clients");
+        return "detail";
     }
 
     @RequestMapping(value = "/clients/create", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE) // CREATE
